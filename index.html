@@ -3,239 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Lucky Spin</title>
+<title>WARAS4D - Valentine Spin & Love</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  height:100vh;
-  font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#ff5f9e,#ff86b6,#ff4d6d);
-  overflow:hidden;
-  color:#fff;
+/* ===============================
+   🌸 VALENTINE THEME
+================================ */
+body {
+    background: radial-gradient(circle at top, #ff5fa2 0%, #1a0010 55%, #0b0006 100%);
+    color: #ffe6f0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
 }
 
-/* HEADER */
-header{
-  text-align:center;
-  padding:30px 20px;
-}
-header h1{
-  font-size:2.6rem;
-  font-weight:900;
-}
-header p{
-  margin-top:10px;
-  opacity:.9;
+/* Love glow */
+h1, h2 {
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
 }
 
-/* LAYOUT */
-.container{
-  max-width:1100px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
-  padding:20px;
-}
-@media(max-width:768px){
-  .container{grid-template-columns:1fr}
+.highlight {
+    color: #ff77b7;
+    animation: lovePulse 2s infinite;
 }
 
-/* WHEEL AREA */
-.wheel-area{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+@keyframes lovePulse {
+    0%,100% { text-shadow: 0 0 15px #ff5fa2; }
+    50% { text-shadow: 0 0 35px #ff9ecd; }
 }
 
-.wheel-wrapper{
-  width:320px;
-  height:320px;
-  position:relative;
+/* Button Valentine */
+button {
+    background: linear-gradient(to bottom, #ff5fa2, #ff2d7a);
+    border: 4px solid #ff9ecd;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+    color: #fff;
 }
 
-.wheel{
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  transition:transform 5s cubic-bezier(.15,0,.15,1);
+button:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #ff85c1, #ff5fa2);
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
 }
 
-/* LOVE SVG */
-.love-svg{
-  width:100%;
-  height:100%;
-  filter:drop-shadow(0 0 25px rgba(255,0,100,.6));
+/* Wheel Valentine */
+.wheel-outer {
+    background: linear-gradient(to bottom, #ff9ecd, #ff5fa2);
+    border: 4px solid #ff2d7a;
+    box-shadow: 0 0 60px rgba(255, 105, 180, 0.9);
 }
 
-/* POINTER */
-.pointer{
-  position:absolute;
-  top:-15px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:32px;
-  z-index:10;
+.wheel-inner {
+    background: conic-gradient(
+        #ff2d7a 0deg 60deg,
+        #fff0f7 60deg 120deg,
+        #ff2d7a 120deg 180deg,
+        #fff0f7 180deg 240deg,
+        #ff2d7a 240deg 300deg,
+        #fff0f7 300deg 360deg
+    );
 }
 
-/* FORM */
-.panel{
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(15px);
-  border-radius:20px;
-  padding:30px;
-}
-.panel h2{
-  margin-bottom:15px;
-}
-input{
-  width:100%;
-  height:50px;
-  border:none;
-  border-radius:10px;
-  padding:0 15px;
-  font-size:16px;
-  margin-bottom:15px;
-}
-button{
-  width:100%;
-  height:55px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#ff2e63,#ff6fa5);
-  color:white;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer;
-}
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
+/* ===============================
+   ❤️ HEART RAIN
+================================ */
+.heart {
+    position: fixed;
+    top: -20px;
+    color: #ff5fa2;
+    font-size: 18px;
+    animation: fall linear forwards;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* MODAL */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
-.modal.show{display:flex}
-.modal-box{
-  background:#ff4d6d;
-  padding:35px;
-  border-radius:20px;
-  text-align:center;
-}
-.modal-box h1{margin-bottom:10px}
 
-/* HEART RAIN */
-.heart{
-  position:fixed;
-  top:-10px;
-  font-size:18px;
-  animation:fall linear infinite;
+/* Modal Valentine */
+.modal-content {
+    background: linear-gradient(135deg, #3b001f, #1a000d);
+    border: 2px solid #ff5fa2;
+    box-shadow: 0 0 60px rgba(255, 105, 180, 0.8);
 }
-@keyframes fall{
-  to{transform:translateY(110vh);opacity:0}
+
+.prize-amount {
+    color: #ff9ecd;
+    text-shadow: 0 0 25px rgba(255,105,180,.9);
+}
+
+/* Chat button love */
+.chat-button {
+    background: linear-gradient(to right, #ff5fa2, #ff2d7a);
+    box-shadow: 0 0 30px rgba(255,105,180,.8);
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>SELAMAT DATANG DI PANAH4D</h1>
-  <p>💖 Putar Lucky Spin Valentine & menangkan hadiah romantis 💖</p>
-</header>
+<!-- ❤️ HEART RAIN CONTAINER -->
+<div id="heartRain"></div>
 
-<div class="container">
-  <!-- WHEEL -->
-  <div class="wheel-area">
-    <div class="wheel-wrapper">
-      <div class="pointer">💘</div>
-      <div class="wheel" id="wheel">
-        <svg viewBox="0 0 512 512" class="love-svg">
-          <path d="M256 464s-192-112-192-272c0-66 54-120 120-120 44 0 82 24 104 60 22-36 60-60 104-60 66 0 120 54 120 120 0 160-192 272-192 272z"
-                fill="url(#grad)"/>
-          <defs>
-            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ffccd5"/>
-              <stop offset="50%" stop-color="#ff4d6d"/>
-              <stop offset="100%" stop-color="#c9184a"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-  </div>
+<h1 style="text-align:center;margin-top:30px;">
+SELAMAT DATANG DI <span class="highlight">WARAS4D LOVE</span> 💕
+</h1>
+<p style="text-align:center;opacity:.8">
+Putar roda cinta & menangkan hadiah Valentine 🎁
+</p>
 
-  <!-- FORM -->
-  <s
-  <div class="panel">
-    <h2>Masukkan USER ID</h2>
-    <input id="userId" placeholder="Contoh: 13131">
-    <button id="spinBtn">SPIN VALENTINE 💖</button>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box">
-    <h1>💘 SELAMAT 💘</h1>
-    <p>Kamu mendapatkan</p>
-    <h2 id="result">IDR 100.000</h2>
-    <br>
-    <button onclick="closeModal()">OK</button>
-  </div>
-</div>
+<!-- AUDIO -->
+<audio id="bgMusic" loop></audio>
+<audio id="spinSound"></audio>
+<audio id="winSound"></audio>
 
 <script>
-const prizes = ["25.000","50.000","75.000","100.000","150.000","200.000"];
-let spinning = false;
+/* ===============================
+   🎶 ROMANTIC MUSIC
+================================ */
+function setupAudio() {
+    const bgMusic = document.getElementById('bgMusic');
+    const spinSound = document.getElementById('spinSound');
+    const winSound = document.getElementById('winSound');
 
-document.getElementById("spinBtn").onclick = () =>{
-  const user = userId.value.trim();
-  if(!user){alert("Masukkan USER ID");return;}
-  if(spinning)return;
+    bgMusic.src = "https://cdn.pixabay.com/download/audio/2022/02/23/audio_7c6c6a6d1f.mp3?filename=romantic-piano-112191.mp3";
+    spinSound.src = "https://assets.mixkit.co/active_storage/sfx/2045/2045-preview.mp3";
+    winSound.src = "https://assets.mixkit.co/active_storage/sfx/2033/2033-preview.mp3";
 
-  spinning = true;
-  spinBtn.disabled = true;
+    bgMusic.volume = 0.4;
+    spinSound.volume = 0.6;
+    winSound.volume = 0.9;
 
-  const wheel = document.getElementById("wheel");
-  const rotate = 360 * (6 + Math.random()*3);
-  wheel.style.transform = `rotate(${rotate}deg)`;
+    document.addEventListener('click', () => {
+        bgMusic.play().catch(()=>{});
+    }, { once:true });
+}
+setupAudio();
 
-  const prize = prizes[Math.floor(Math.random()*prizes.length)];
+/* ===============================
+   ❤️ HEART RAIN SCRIPT
+================================ */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (12 + Math.random() * 18) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
 
-  setTimeout(()=>{
-    document.getElementById("result").innerText = "IDR "+prize;
-    document.getElementById("modal").classList.add("show");
-    spinning = false;
-  },5000);
+    setTimeout(() => heart.remove(), 8000);
 }
 
-function closeModal(){
-  modal.classList.remove("show");
-}
+setInterval(createHeart, 300);
 
-/* HEART RAIN */
-setInterval(()=>{
-  const h = document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=3+Math.random()*4+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),8000);
-},300);
+/* ===============================
+   🎉 EXTRA CONFETTI LOVE
+================================ */
+function celebrateWin() {
+    const duration = 2500;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+        confetti({
+            particleCount: 6,
+            spread: 70,
+            colors: ['#ff5fa2','#ff9ecd','#ffffff']
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+    };
+    frame();
+}
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>
