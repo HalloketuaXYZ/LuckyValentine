@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PANAH4D 💖 Valentine Lucky Spin</title>
+
+<style>
+/* =====================
+   GLOBAL / VALENTINE
+===================== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #ffd6e7, #ff4d8d, #7a0f2b);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* =====================
+   HEART RAIN
+===================== */
+#heart-rain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+.heart {
+    position: absolute;
+    top: -40px;
+    font-size: 18px;
+    animation: fall linear forwards;
+    opacity: 0.9;
+}
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =====================
+   HEADER
+===================== */
+header {
+    text-align: center;
+    padding: 30px 20px;
+    z-index: 5;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+}
+
+header .highlight {
+    color: #ffb3c6;
+    text-shadow: 0 0 20px #ff85b3;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: rgba(255,255,255,0.9);
+}
+
+/* =====================
+   MAIN
+===================== */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    position: relative;
+    z-index: 5;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media(max-width:768px){
+    .main-content { grid-template-columns: 1fr; }
+}
+
+/* =====================
+   WHEEL
+===================== */
+.wheel-wrapper {
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    position: relative;
+}
+
+.pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.wheel-outer {
+    background: linear-gradient(to bottom, #ff85b3, #ff4d8d);
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(255,133,179,0.7);
+}
+
+.wheel-inner {
+    border-radius: 50%;
+    background: conic-gradient(
+        #ff4d6d 0deg 60deg,
+        #ffffff 60deg 120deg,
+        #ff4d6d 120deg 180deg,
+        #ffffff 180deg 240deg,
+        #ff4d6d 240deg 300deg,
+        #ffffff 300deg 360deg
+    );
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.wheel-inner.spinning {
+    animation: spin-wheel 6s cubic-bezier(0.15, 0, 0.15, 1) forwards;
+}
+
+@keyframes spin-wheel {
+    to { transform: rotate(var(--rotation)); }
+}
+
+.prize-text {
+    position: absolute;
+    font-weight: 900;
+    font-size: 22px;
+}
+
+/* =====================
+   INPUT BOX
+===================== */
+.input-section {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(255,133,179,0.3);
+}
+
+.input-section h2 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+    height: 55px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+button {
+    width: 100%;
+    height: 60px;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(45deg, #ff4d8d, #ff85b3);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 25px #ff85b3;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =====================
+   HISTORY
+===================== */
+.winners-section {
+    margin-top: 20px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.winners-header {
+    padding: 15px;
+    text-align: center;
+    background: rgba(255,133,179,0.2);
+    font-weight: bold;
+}
+
+/* =====================
+   MODAL
+===================== */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show { display: flex; }
+
+.modal-content {
+    background: linear-gradient(135deg, #ff4d8d, #7a0f2b);
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 40px #ff85b3;
+}
+
+.prize-amount {
+    font-size: 3rem;
+    color: #ffe066;
+    font-weight: 900;
+}
+
+/* =====================
+   MUTE BUTTON
+===================== */
+.mute-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEART RAIN -->
+<div id="heart-rain"></div>
+
+<div class="container">
+<header>
+    <h1>SELAMAT DATANG DI <span class="highlight">PANAH4D</span></h1>
+    <p class="subtitle">💖 Putar Lucky Spin Valentine & menangkan hadiah romantis 💖</p>
+</header>
+
+<div class="main-content">
+    <!-- LEFT -->
+    <div class="wheel-wrapper">
+        <div class="pointer">💘</div>
+        <div class="wheel-outer">
+            <div class="wheel-inner" id="wheel"></div>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div>
+        <div class="input-section">
+            <h2>Masukkan USER ID</h2>
+            <input id="userIdInput" placeholder="Contoh: USER123">
+            <button id="spinBtn" onclick="startSpin()">SPIN VALENTINE 💖</button>
+        </div>
+
+        <div class="winners-section">
+            <div class="winners-header">💌 50 Riwayat Spin Terakhir</div>
+            <div id="winnersTable"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal" id="prizeModal">
+    <div class="modal-content">
+        <h1>💘 SELAMAT! 💘</h1>
+        <p>Kamu mendapatkan hadiah</p>
+        <div class="prize-amount" id="prizeAmount">IDR 0</div>
+        <button onclick="claimPrize()">KLAIM SEKARANG 💝</button>
+    </div>
+</div>
+
+<audio id="bgMusic" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-love-story-1149.mp3"></audio>
+<audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"></audio>
+<audio id="winSound" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3"></audio>
+
+<script>
+/* =====================
+   HEART RAIN SCRIPT
+===================== */
+const rain = document.getElementById('heart-rain');
+setInterval(() => {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = Math.random() > 0.5 ? '❤️' : '💖';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (14 + Math.random()*14) + 'px';
+    h.style.animationDuration = (6 + Math.random()*6) + 's';
+    rain.appendChild(h);
+    setTimeout(() => h.remove(), 12000);
+}, 400);
+
+/* =====================
+   MUSIC AUTOPLAY
+===================== */
+document.addEventListener('click', () => {
+    const bg = document.getElementById('bgMusic');
+    bg.volume = 0.5;
+    bg.play().catch(()=>{});
+}, { once:true });
+</script>
+
+<!-- ⚠️ JS SPIN ASLI KAMU TETAP PAKE (TIDAK DIUBAH) -->
+
+</body>
+</html>
