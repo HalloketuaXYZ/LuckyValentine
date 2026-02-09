@@ -624,6 +624,23 @@
                 opacity: 0;
             }
         }
+        /* ❤️ Heart Rain */
+.heart {
+    position: fixed;
+    top: -10vh;
+    color: rgba(255, 105, 180, 0.8);
+    font-size: 20px;
+    animation: fall linear forwards;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
     </style>
 </head>
 <body>
@@ -769,7 +786,7 @@
             const spinSound = document.getElementById('spinSound');
             const winSound = document.getElementById('winSound');
             
-            bgMusic.src = 'https://cdn.pixabay.com/download/audio/2022/03/24/audio_197846c632.mp3?filename=casino-music-1-2518.mp3';
+            bgMusic.src = 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c5a0a2f07.mp3?filename=emotional-love-ambient-11158.mp3';
             spinSound.src = 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3';
             winSound.src = 'https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3';
             
@@ -979,6 +996,25 @@
                 document.getElementById('prizeModal').classList.remove('show');
             }
         });
+        /* ❤️ Heart Rain JS */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 12 + 12 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+// jumlah ringan, aman
+setInterval(createHeart, 300);
     </script>
 </body>
 </html>
