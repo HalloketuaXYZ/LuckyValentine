@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Wheel Lebaran 2026 - Jackpot Edition</title>
+    <title>Mega Wheel Lebaran 2026 - Anti-Cheat Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -15,7 +15,7 @@
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Impact', 'Arial Black', sans-serif; /* PAKE FONT IMPACT */
+            font-family: 'Impact', 'Arial Black', sans-serif;
             background: radial-gradient(circle, #065f46 0%, #022c22 100%);
             color: white;
             display: flex; flex-direction: column;
@@ -31,8 +31,6 @@
             margin: 10px 0; font-size: clamp(30px, 10vw, 50px);
             text-transform: uppercase; letter-spacing: 3px;
         }
-
-        #welcomeText { font-family: 'Arial', sans-serif; font-weight: bold; }
 
         /* MEGA WHEEL BOX */
         .wheel-box {
@@ -52,7 +50,6 @@
             transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
         }
 
-        /* JARUM PENUNJUK (Marker) */
         .marker {
             position: absolute;
             top: -25px; left: 50%;
@@ -72,7 +69,7 @@
             background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
             color: #064e3b;
             border: 4px solid #fff;
-            border-radius: 15px; /* Lebih kotak ala Impact */
+            border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             margin-top: 25px;
@@ -80,20 +77,17 @@
             text-transform: uppercase;
         }
 
-        button#spinBtn:hover { transform: translateY(-5px) scale(1.05); background: #fff; color: #d97706; }
-        button#spinBtn:disabled { background: #666; cursor: not-allowed; opacity: 0.7; transform: none; }
+        button#spinBtn:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); background: #fff; color: #d97706; }
+        button#spinBtn:disabled { background: #4b5563; cursor: not-allowed; opacity: 0.8; border-color: #9ca3af; }
 
-        /* MODAL CUSTOM THEME */
         .swal-lebaran-popup {
             background: var(--emerald) !important;
             border: 5px solid var(--gold) !important;
             color: white !important;
-            border-radius: 0 !important; /* Kotak biar makin Impact */
         }
         .swal-lebaran-title { 
             font-family: 'Impact', sans-serif !important; 
             color: var(--gold) !important; 
-            font-size: 35px !important;
             text-transform: uppercase;
         }
 
@@ -105,7 +99,6 @@
             display: none; z-index: 99;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             border-left: 8px solid #fbbf24;
-            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -113,7 +106,7 @@
 
 <div class="container">
     <h1>🎆 EID MEGA WHEEL 🎆</h1>
-    <p id="welcomeText" style="color: var(--white-gold);">SIAPKAN USER ID UNTUK BERKAH LEBARAN!</p>
+    <p id="welcomeText" style="color: var(--white-gold); font-family: Arial, sans-serif;">LOGIN DAHULU UNTUK SPIN!</p>
 
     <div class="wheel-box">
         <div class="marker"></div>
@@ -164,7 +157,7 @@
             ctx.rotate(ang + arc / 2);
             ctx.textAlign = "right";
             ctx.fillStyle = "#fff";
-            ctx.font = "900 32px Impact"; // FONT IMPACT DI DALAM RODA
+            ctx.font = "900 32px Impact";
             ctx.fillText(sector.label, 270, 12);
             ctx.restore();
         });
@@ -172,63 +165,65 @@
 
     window.onload = () => {
         drawWheel();
+        loginUser();
+    };
+
+    function loginUser() {
         Swal.fire({
             title: 'MASUKKAN USER ID',
-            text: 'ID ANDA ADALAH KUNCI KEBERUNTUNGAN!',
             input: 'text',
-            inputPlaceholder: 'USERNAME...',
+            inputPlaceholder: 'ID AKUN...',
             allowOutsideClick: false,
-            confirmButtonText: 'GAS MAIN!',
-            customClass: {
-                popup: 'swal-lebaran-popup',
-                title: 'swal-lebaran-title'
-            },
+            confirmButtonText: 'CEK STATUS ID',
+            customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' },
             confirmButtonColor: '#fbbf24',
             preConfirm: (value) => {
                 if (!value) return Swal.showValidationMessage('ID WAJIB DIISI!');
-                return value;
+                return value.trim().toUpperCase();
             }
         }).then((result) => {
             if (result.value) {
-                username = result.value.toUpperCase();
-                document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:yellow">${username}</span>`;
-                setInterval(showFakeNotif, 5000);
+                username = result.value;
+                // CEK APAKAH ID SUDAH PERNAH CLAIM
+                if (localStorage.getItem("claim_" + username)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'MAAF!',
+                        text: `ID ${username} SUDAH PERNAH KLAIM HADIAH!`,
+                        confirmButtonText: 'GANTI ID',
+                        confirmButtonColor: '#ff0000',
+                        customClass: { popup: 'swal-lebaran-popup' }
+                    }).then(() => loginUser()); // Ulangi login
+                } else {
+                    document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:yellow">${username}</span>`;
+                    setInterval(showFakeNotif, 5000);
+                }
             }
-        });
-    };
-
-    // EFEK JACKPOT (Petasan & Koin)
-    function launchJackpot() {
-        // Efek Petasan (Fireworks)
-        var duration = 5 * 1000;
-        var animationEnd = Date.now() + duration;
-        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-        function randomInRange(m, M) { return Math.random() * (M - m) + m; }
-
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
-            var particleCount = 50 * (timeLeft / duration);
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
-
-        // Efek Hujan Koin
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#fbbf24', '#d97706', '#fff']
         });
     }
 
-    spinBtn.onclick = () => {
-        if (!username) return;
-        spinBtn.disabled = true;
+    function launchJackpot() {
+        var duration = 5 * 1000;
+        var animationEnd = Date.now() + duration;
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+            confetti({ particleCount: 40, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#fff', '#d97706'] });
+        }, 250);
+    }
 
+    spinBtn.onclick = () => {
+        if (!username || spinBtn.disabled) return;
+        
+        // Proteksi ganda: cek lagi saat tombol diklik
+        if (localStorage.getItem("claim_" + username)) {
+            Swal.fire('STOP!', 'ID ANDA SUDAH KLAIM!', 'error');
+            return;
+        }
+
+        spinBtn.disabled = true;
         const randomExtra = Math.floor(Math.random() * 360);
-        const totalSpin = 2160 + randomExtra; // Minimal 6 putaran biar lama
+        const totalSpin = 2160 + randomExtra;
         currentRotation += totalSpin;
         
         canvas.style.transform = `rotate(${currentRotation}deg)`;
@@ -238,7 +233,6 @@
             const winningIndex = Math.floor(((360 - netRotation + 270) % 360) / (360 / tot));
             const prize = sectors[winningIndex].label;
 
-            // PANGGIL PETASAN & KOIN
             launchJackpot();
 
             Swal.fire({
@@ -247,10 +241,12 @@
                 icon: 'success',
                 confirmButtonText: 'AMBIL SALDO SEKARANG',
                 confirmButtonColor: '#065f46',
+                allowOutsideClick: false,
                 customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' }
             }).then(() => {
+                // SIMPAN STATUS CLAIM KE BROWSER
+                localStorage.setItem("claim_" + username, "true");
                 window.location.href = "https://lawaswow.com/?user=" + username + "&prize=" + prize;
-                spinBtn.disabled = false;
             });
         }, 5100);
     };
