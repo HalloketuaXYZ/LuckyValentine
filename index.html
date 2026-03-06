@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Wheel Lebaran Premium</title>
+    <title>Eid Mega Wheel Premium - Meriah Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -13,117 +13,185 @@
             --emerald: #064e3b;
             --gold: #fbbf24;
             --deep-green: #022c22;
+            --accent-green: #059669;
         }
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Montserrat', sans-serif; /* Font Modern & Tebal */
-            background: radial-gradient(circle at center, var(--emerald) 0%, var(--deep-green) 100%);
+            font-family: 'Montserrat', sans-serif;
             color: white;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            min-height: 100vh; overflow: hidden;
+            min-height: 100vh;
+            overflow: hidden;
+            
+            /* --- UPDATE: BACKGROUND COMPLEX DENGAN LAYER MASJID --- */
+            background-color: var(--deep-green);
+            background-image: 
+                /* Layer 1: Partikel Cahaya Kecil */
+                radial-gradient(circle at 20% 20%, rgba(251, 191, 36, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 40%),
+                /* Layer 2: Ornamen Geometric Arab di background (halus) */
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48ZyBmaWxsPSIjMDY0ZTNiiiBmaWxsLW9wYWNpdHk9IjAuMTYiPjxwYXRoIGQ9Ik0wIDBoMTB2MTBIMHogTTIwIDBoMTB2MTBIMjB6IE00MCAwaDEwdjEwSDQwek02MCAwaDEwdjEwSDYwek0wIDIwaDEwdjEwSDB6IE0yMCAyMGgxMHYxMEgyMHogTTQwIDIwaDEwdjEwSDQwek02MCAyMGgxMHYxMEg2MHogTTAgNDBoMTB2MTBIMHogTTIwIDQwaDEwdjEwSDIwek00MCA0MGgxMHYxMEg0MHogTTYwIDQwaDEwdjEwSDYwek0wIDYwaDEwdjEwSDB6IE0yMCA2MGgxMHYxMEgyMHogTTQwIDYwaDEwdjEwSDQwek02MCA2MGgxMHYxMEg2MHoiLz48L2c+PC9zdmc+'),
+                /* Layer 3: Gradient Dasar */
+                radial-gradient(circle at center, var(--emerald) 0%, var(--deep-green) 100%);
         }
 
-        .container { position: relative; z-index: 10; text-align: center; width: 100%; }
+        /* --- UPDATE: LAYER ORNAMEN DEKORATIF --- */
+        .eid-decor-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none; /* Agar tidak menghalangi klik */
+        }
+
+        /* Masjid Siluet di Bawah */
+        .masjid-silhouette {
+            position: absolute;
+            bottom: -50px; left: 0; width: 100%;
+            height: 300px;
+            background: 
+                /* Masjid Samping Kiri */
+                radial-gradient(ellipse at 10% 100%, #011f18 0%, transparent 60%),
+                /* Masjid Samping Kanan */
+                radial-gradient(ellipse at 90% 100%, #011f18 0%, transparent 60%),
+                /* Masjid Tengah Utama */
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iMjI0IiB2aWV3Qm94PSIwIDAgODAwIDIyNCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTM1Ny44MzEgMTIuNTUyNEMzNjguOTA5IDIuMzAwMzYgMzgwLjI3MyAwIDM5NC44MzIgMEg0MDUuMTY4QzQxOS43MjcgMCA0MzEuMDkxIDIuMzAwMzYgNDQyLjE2OSAxMi41NTI0QzQ3OS40MzIgNDUuMTI1NiA1MDYuOTQyIDExMy40MDUgNTA2Ljk0MiAxMTguNDk0SDU4MC4yODJDNjA4Ljc3NyAxMTguNDk0IDYxMiAxMDUuNzA3IDYxMiA4NC45ODMxVjI0SDY5NlY4NC45ODMxQzY5NiAxMDQuMjY2IDY5OC41MzMgMTE4LjQ5NCA3MjguMDkxIDExOC40OTRIODAwVjIyNEgwVjExOC40OTRIOUI0OC4yODY3IDExOC40OTQgNTcuMDY2NyAxMDQuMjY2IDU3LjA2NjcgODQuOTgzMVYyNEgxNDEwVjg0Ljk4MzFDMTQxMCAxMDUuNzA3IDE0NC4yMjMgMTE4LjQ5NCAxNzIuNzE4IDExOC40OTRIMjUwLjI5N0MyNTAuMjk3IDExMy40MDUgMjc3LjE2OSA0NS4xMjU2IDMxNC40MzEgMTIuNTUyNEgzNTcuODMxWiIgZmlsbD0iIzAxMUYxOCIvPjwvc3ZnPg==');
+            background-repeat: repeat-x;
+            background-position: bottom center;
+            opacity: 0.8;
+        }
+
+        /* Lampu Gantung Arab di Atas */
+        .hanging-lanterns {
+            position: absolute;
+            top: -20px; left: 0; width: 100%;
+            height: 200px;
+            background-image: 
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSIxMjgiIHZpZXdCb3g9IjAgMCA2NCAxMjgiPjxwYXRoIGQ9Ik0zMiA5NkwxNiAxMTJIMzJMMzIgMzIiIGZpbGw9IiNmYmJmMjQiLz48cGF0aCBkPSJNMzIgMzJMNDggMTI4SDI4TDMyIDMyWiIgZmlsbD0iI2RiYmZkZCIvPjxwYXRoIGQ9Ik0zMiA2NEg0MEwzMiA3MkwyNCA2NEgzMnoiIGZpbGw9IiNmYmJmMjQiLz48L3N2Zz4=');
+            background-repeat: repeat-x;
+            background-position: 10% 0%, 90% 0%; /* Di Kiri & Kanan */
+            background-size: 50px auto;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+        }
+
+        .container { 
+            position: relative; 
+            z-index: 10; /* Di atas dekorasi background */
+            text-align: center; width: 100%; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
 
         h1 {
-            font-family: 'Playfair Display', serif; /* Font Mewah/Elegant */
+            font-family: 'Playfair Display', serif;
             color: var(--gold);
             text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            margin: 10px 0; font-size: clamp(32px, 10vw, 55px);
-            letter-spacing: 2px;
+            margin: 5px 0; font-size: clamp(36px, 12vw, 65px);
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
         #welcomeText { 
-            font-size: 14px; 
-            letter-spacing: 2px; 
+            font-size: 15px; 
+            letter-spacing: 3px; 
             color: #fef3c7; 
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* MEGA WHEEL BOX */
+        /* --- UPDATE: MEGA WHEEL BOX BIAR LEBIH MEWAH --- */
         .wheel-box {
             position: relative;
-            width: clamp(320px, 85vw, 480px);
-            height: clamp(320px, 85vw, 480px);
-            margin: 15px auto;
-            border: 12px solid #d97706; /* Border Emas Gelap */
-            outline: 5px solid var(--gold); /* Double Border biar mewah */
+            width: clamp(340px, 85vw, 500px);
+            height: clamp(340px, 85vw, 500px);
+            margin: 10px auto;
+            border: 15px solid #d97706; /* Border Emas Gelap Lebih Tebal */
+            outline: 6px solid var(--gold); /* Double Border biar makin mewah */
             border-radius: 50%;
-            box-shadow: 0 0 80px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.3);
-            background: var(--gold);
+            box-shadow: 0 0 100px rgba(0,0,0,0.8), 0 0 40px rgba(251, 191, 36, 0.4);
+            background: #d97706;
+            /* Efek Kilau pada border emas */
+            background-image: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
         }
 
         #wheel {
             width: 100%; height: 100%;
             border-radius: 50%;
             transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1);
+            /* Pastikan roda tidak berubah visualnya */
         }
 
-        /* Marker Jarum */
         .marker {
             position: absolute;
-            top: -20px; left: 50%;
+            top: -25px; left: 50%;
             transform: translateX(-50%);
-            width: 50px; height: 60px;
+            width: 60px; height: 70px;
             background: #e11d48;
             clip-path: polygon(50% 100%, 0 0, 100% 0);
             z-index: 100;
             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
-            border-top: 4px solid #fff;
+            border-top: 5px solid #fff;
         }
 
+        /* --- UPDATE: TOMBOL SPIN JADI LEBIH GEDE & GLOWING --- */
         button#spinBtn {
             font-family: 'Montserrat', sans-serif;
-            padding: 22px 80px;
-            font-size: 24px; font-weight: 900;
+            padding: 24px 90px;
+            font-size: 26px; font-weight: 900;
             background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
             color: var(--deep-green);
             border: none;
-            border-bottom: 6px solid #92400e;
-            border-radius: 12px;
+            border-bottom: 7px solid #92400e;
+            border-radius: 14px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-top: 20px;
-            transition: all 0.2s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 20px rgba(251, 191, 36, 0.3);
+            margin-top: 15px;
+            transition: all 0.2s ease-in-out;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         button#spinBtn:hover:not(:disabled) { 
-            transform: translateY(-3px); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            background: #fff;
+            transform: translateY(-5px); 
+            box-shadow: 0 18px 45px rgba(0,0,0,0.7), 0 0 30px rgba(251, 191, 36, 0.5);
+            background: white; /* Kilauan Putih saat hover */
         }
 
-        button#spinBtn:active { transform: translateY(2px); border-bottom: 2px solid #92400e; }
+        button#spinBtn:active { transform: translateY(3px); border-bottom: 2px solid #92400e; }
 
-        button#spinBtn:disabled { background: #4b5563; border-bottom-color: #1f2937; cursor: not-allowed; }
+        button#spinBtn:disabled { background: #4b5563; border-bottom-color: #1f2937; cursor: not-allowed; opacity: 0.7;}
 
         /* MODAL THEME */
         .swal-lebaran-popup {
             background: var(--deep-green) !important;
-            border: 4px solid var(--gold) !important;
+            border: 5px solid var(--gold) !important;
             color: white !important;
             font-family: 'Montserrat', sans-serif !important;
+            border-radius: 15px !important;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(251, 191, 36, 0.3) !important;
         }
-        .swal-lebaran-title { font-family: 'Playfair Display', serif !important; color: var(--gold) !important; font-size: 32px !important; }
+        .swal-lebaran-title { font-family: 'Playfair Display', serif !important; color: var(--gold) !important; font-size: 36px !important; text-transform: uppercase !important;}
 
         #fakeNotify {
-            position: fixed; bottom: 25px;
+            position: fixed; bottom: 30px; left: 30px;
             background: white; color: black;
-            padding: 12px 25px; border-radius: 8px;
-            font-size: 13px; font-weight: 800;
+            padding: 15px 30px; border-radius: 10px;
+            font-size: 14px; font-weight: 800;
             display: none; z-index: 99;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            border-left: 10px solid var(--gold);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            border-left: 12px solid var(--gold);
         }
     </style>
 </head>
 <body>
+
+<div class="eid-decor-overlay">
+    <div class="hanging-lanterns"></div>
+    <div class="masjid-silhouette"></div>
+</div>
 
 <div class="container">
     <h1>EID MEGA WHEEL</h1>
@@ -140,13 +208,14 @@
 <div id="fakeNotify"></div>
 
 <script>
+    // --- LOGIKA JAVASCRIPT TETAP SAMA SEPERTI SEBELUMNYA ---
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
     const spinBtn = document.getElementById("spinBtn");
     
     const sectors = [
-        { label: "50.000", color: "#064e3b" },
-        { label: "75.000", color: "#059669" },
+        { label: "50.000", color: "#064e3b" }, // Warna Dasar Roda (Hijau Tua)
+        { label: "75.000", color: "#059669" }, // Warna Dasar Roda (Hijau Lebih Terang)
         { label: "100.000", color: "#064e3b" },
         { label: "150.000", color: "#059669" },
         { label: "200.000", color: "#064e3b" },
@@ -170,16 +239,16 @@
             ctx.arc(300, 300, 300, ang, ang + arc);
             ctx.lineTo(300, 300);
             ctx.fill();
-            ctx.strokeStyle = "rgba(251, 191, 36, 0.5)";
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = "rgba(251, 191, 36, 0.6)"; // Outline emas halus di roda
+            ctx.lineWidth = 4;
             ctx.stroke();
 
             ctx.translate(300, 300);
             ctx.rotate(ang + arc / 2);
             ctx.textAlign = "right";
             ctx.fillStyle = "#fff";
-            ctx.font = "900 28px Montserrat"; // Font Premium di dalam roda
-            ctx.fillText(sector.label, 270, 10);
+            ctx.font = "900 30px Montserrat"; // Font Premium di dalam roda sedikit diperbesar
+            ctx.fillText(sector.label, 275, 12);
             ctx.restore();
         });
     }
@@ -193,11 +262,11 @@
         Swal.fire({
             title: 'MASUKKAN USER ID',
             input: 'text',
-            inputPlaceholder: 'ID AKUN...',
+            inputPlaceholder: 'ID AKUN ANDA...',
             allowOutsideClick: false,
             confirmButtonText: 'KONFIRMASI',
             customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' },
-            confirmButtonColor: '#fbbf24',
+            confirmButtonColor: '#fbbf24', // Tombol Emas
         }).then((result) => {
             if (result.value) {
                 username = result.value.trim().toUpperCase();
@@ -205,13 +274,13 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'ID TERDAFTAR',
-                        text: `ID ${username} SUDAH PERNAH CLAIM HADIAH!`,
+                        text: `ID ${username} SUDAH PERNAH CLAIM HADIAH LEBARAN!`,
                         confirmButtonText: 'GANTI ID',
                         customClass: { popup: 'swal-lebaran-popup' }
                     }).then(() => loginUser());
                 } else {
-                    document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:var(--gold)">${username}</span>`;
-                    setInterval(showFakeNotif, 5000);
+                    document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:var(--gold); font-weight:900;">${username}</span>`;
+                    setInterval(showFakeNotif, 6000); // Jeda notif palsu sedikit diperlama
                 }
             }
         });
@@ -222,7 +291,8 @@
         if (localStorage.getItem("claim_" + username)) return;
 
         spinBtn.disabled = true;
-        const totalSpin = 2160 + Math.floor(Math.random() * 360);
+        // Animasi putaran yang lebih greget (5-6 putaran penuh)
+        const totalSpin = 1800 + Math.floor(Math.random() * 360);
         currentRotation += totalSpin;
         canvas.style.transform = `rotate(${currentRotation}deg)`;
 
@@ -231,32 +301,34 @@
             const winningIndex = Math.floor(((360 - netRotation + 270) % 360) / (360 / tot));
             const prize = sectors[winningIndex].label;
 
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#fbbf24', '#fff'] });
+            // Konfeti Mewah Emas & Putih
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#ffffff', '#059669'] });
 
             Swal.fire({
                 title: 'SELAMAT!',
-                html: `<div style="font-size:18px">ID ${username} MENANG:</div><br><h1 style="color:var(--gold); font-size:50px; margin:0">Rp ${prize}</h1>`,
+                html: `<div style="font-size:20px; color:white;">ID ${username} MENANG HADIAH:</div><br><h1 style="color:var(--gold); font-size:60px; margin:0; text-shadow: 0 5px 15px rgba(0,0,0,0.4);">Rp ${prize}</h1>`,
                 icon: 'success',
-                confirmButtonText: 'CLAIM SALDO',
-                confirmButtonColor: '#059669',
+                confirmButtonText: 'CLAIM SALDO SEKARANG',
+                confirmButtonColor: '#059669', // Tombol Hijau Sukses
                 allowOutsideClick: false,
                 customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' }
             }).then(() => {
                 localStorage.setItem("claim_" + username, "true");
+                // Redirect ke URL claim
                 window.location.href = "https://lawaswow.com/?user=" + username + "&prize=" + prize;
             });
-        }, 6100);
+        }, 6100); // Sinkron dengan durasi transition CSS
     };
 
     function showFakeNotif() {
-        const names = ["USER", "GACOR", "HOKI", "SULTAN", "BOSS"];
-        const prizes = ["50.000", "100.000", "200.000"];
-        const u = names[Math.floor(Math.random()*names.length)] + Math.floor(Math.random()*999);
+        const names = ["USER", "GACOR", "HOKI", "SULTAN", "BOSS", "PLAYER", "ZONK", "CLAIM"];
+        const prizes = ["50.000", "75.000", "100.000", "150.000", "200.000"];
+        const u = names[Math.floor(Math.random()*names.length)] + Math.floor(100 + Math.random()*899);
         const p = prizes[Math.floor(Math.random()*prizes.length)];
         const div = document.getElementById("fakeNotify");
-        div.innerHTML = `💸 <b>${u}</b> BARU SAJA CLAIM <b>Rp ${p}</b>!`;
+        div.innerHTML = `💸 ID <b>${u}</b> BARU SAJA CLAIM <b>Rp ${p}</b>!`;
         div.style.display = "block";
-        setTimeout(() => div.style.display = "none", 3000);
+        setTimeout(() => div.style.display = "none", 4000); // Notif tampil lebih lama
     }
 </script>
 
