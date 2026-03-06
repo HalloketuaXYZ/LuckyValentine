@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Wheel Lebaran 2026</title>
+    <title>Mega Wheel Hadiah Lebaran</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
@@ -14,7 +14,7 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: radial-gradient(circle, #065f46 0%, #022c22 100%);
             color: white;
             display: flex;
@@ -34,86 +34,92 @@
 
         h1 {
             color: var(--gold);
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
             margin: 10px 0;
-            font-size: 28px;
+            font-size: clamp(24px, 8vw, 36px);
+            text-transform: uppercase;
         }
 
-        /* WRAPPER RODA AGAR BESAR */
+        /* MEGA WHEEL BOX */
         .wheel-box {
             position: relative;
-            width: 380px; /* Ukuran Roda */
-            height: 380px;
+            width: clamp(300px, 85vw, 450px);
+            height: clamp(300px, 85vw, 450px);
             margin: 20px auto;
-            border: 10px solid var(--gold);
+            border: 12px solid var(--gold);
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
-            background: #047857;
+            box-shadow: 0 0 50px rgba(0,0,0,0.6);
+            background: var(--gold);
         }
 
         canvas#wheel {
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
         /* JARUM PENUNJUK */
         .marker {
             position: absolute;
-            top: -20px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
             width: 0; 
             height: 0; 
             border-left: 20px solid transparent;
             border-right: 20px solid transparent;
-            border-top: 30px solid #ff0000; /* Warna Merah biar jelas */
+            border-top: 35px solid #e11d48; /* Merah Menyala */
             z-index: 100;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5));
         }
 
         button#spinBtn {
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            background: linear-gradient(to bottom, #fbbf24, #d97706);
+            padding: 18px 50px;
+            font-size: 22px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
             color: #064e3b;
-            border: none;
-            border-radius: 30px;
+            border: 2px solid #fff;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-top: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            margin-top: 15px;
+            transition: 0.2s;
         }
 
+        button#spinBtn:hover { transform: scale(1.05); }
         button#spinBtn:active { transform: scale(0.95); }
 
         /* Fake Notif di Bawah */
         #fakeNotify {
             position: fixed;
-            bottom: 20px;
-            background: white;
-            color: black;
-            padding: 10px 20px;
-            border-radius: 20px;
+            bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #111;
+            padding: 12px 25px;
+            border-radius: 50px;
             font-size: 14px;
             font-weight: bold;
             display: none;
             z-index: 99;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border-left: 6px solid #10b981;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🌙 EID MEGA WHEEL 🌙</h1>
-    <p id="welcomeText">Silahkan isi nama dahulu...</p>
+    <h1>🎊 EID MEGA WHEEL 🎊</h1>
+    <p id="welcomeText" style="color: #fef3c7; font-style: italic;">Memuat permainan...</p>
 
     <div class="wheel-box">
         <div class="marker"></div>
-        <canvas id="wheel" width="500" height="500"></canvas>
+        <canvas id="wheel" width="600" height="600"></canvas>
     </div>
 
-    <button id="spinBtn">SPIN NOW</button>
+    <button id="spinBtn">SPIN SEKARANG</button>
 </div>
 
 <div id="fakeNotify"></div>
@@ -123,114 +129,113 @@
     const ctx = canvas.getContext("2d");
     const spinBtn = document.getElementById("spinBtn");
     
-    // HADIAH & WARNA
+    // DAFTAR HADIAH (Sesuai Permintaan: Tanpa Zonk)
     const sectors = [
         { label: "Rp 50.000", color: "#065f46" },
-        { label: "ZONK", color: "#047857" },
-        { label: "Rp 100.000", color: "#065f46" },
-        { label: "ZONK", color: "#047857" },
+        { label: "Rp 150.000", color: "#047857" },
+        { label: "Rp 75.000", color: "#065f46" },
+        { label: "Rp 100.000", color: "#047857" },
         { label: "Rp 200.000", color: "#065f46" },
-        { label: "Rp 75.000", color: "#047857" },
-        { label: "ZONK", color: "#065f46" },
-        { label: "Rp 150.000", color: "#047857" }
+        { label: "Rp 50.000", color: "#047857" },
+        { label: "Rp 100.000", color: "#065f46" },
+        { label: "Rp 75.000", color: "#047857" }
     ];
 
-    const rand = (m, M) => Math.random() * (M - m) + m;
     const tot = sectors.length;
     const arc = 2 * Math.PI / tot;
-    let ang = 0; 
-    let angVel = 0; 
+    let currentRotation = 0;
     let isSpinning = false;
     let username = "";
 
-    // 1. FUNGSI GAMBAR RODA (Pasti muncul nominalnya)
-    function drawSector(sector, i) {
-        const angStart = arc * i;
-        ctx.save();
-        ctx.beginPath();
-        ctx.fillStyle = sector.color;
-        ctx.moveTo(250, 250);
-        ctx.arc(250, 250, 250, angStart, angStart + arc);
-        ctx.lineTo(250, 250);
-        ctx.fill();
-        ctx.strokeStyle = "#fbbf24";
-        ctx.stroke();
+    // GAMBAR RODA
+    function drawWheel() {
+        sectors.forEach((sector, i) => {
+            const angStart = arc * i;
+            ctx.save();
+            ctx.beginPath();
+            ctx.fillStyle = sector.color;
+            ctx.moveTo(300, 300);
+            ctx.arc(300, 300, 300, angStart, angStart + arc);
+            ctx.lineTo(300, 300);
+            ctx.fill();
+            ctx.strokeStyle = "#fbbf24";
+            ctx.lineWidth = 2;
+            ctx.stroke();
 
-        // Tulisan Hadiah
-        ctx.translate(250, 250);
-        ctx.rotate(angStart + arc / 2);
-        ctx.textAlign = "right";
-        ctx.fillStyle = "#fff";
-        ctx.font = "bold 24px Arial";
-        ctx.fillText(sector.label, 230, 10);
-        ctx.restore();
+            // Tulisan Nominal
+            ctx.translate(300, 300);
+            ctx.rotate(angStart + arc / 2);
+            ctx.textAlign = "right";
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 28px Arial";
+            ctx.fillText(sector.label, 280, 10);
+            ctx.restore();
+        });
     }
 
-    function renderWheel() {
-        ctx.clearRect(0, 0, 500, 500);
-        sectors.forEach(drawSector);
-    }
-
-    // 2. FUNGSI PUTAR
-    function rotate() {
-        if (!isSpinning) return;
-        ang += angVel;
-        angVel *= 0.985; // Gesekan biar makin pelan
-        if (angVel < 0.002) {
-            isSpinning = false;
-            angVel = 0;
-            const finalIndex = Math.floor(tot - (ang / (2 * Math.PI)) % 1 * tot) % tot;
-            const reward = sectors[finalIndex].label;
-            
-            if(reward === "ZONK") {
-                Swal.fire("Yah!", "Coba lagi besok ya!", "error");
-            } else {
-                Swal.fire("SELAMAT!", `User ${username} menang ${reward}`, "success").then(() => {
-                    window.location.href = "https://lawaswow.com/";
-                });
-            }
-        }
-        canvas.style.transform = `rotate(${ang}rad)`;
-        requestAnimationFrame(rotate);
-    }
-
-    // 3. POPUP USERNAME DI AWAL (Pasti muncul)
+    // POPUP LOGIN
     document.addEventListener("DOMContentLoaded", () => {
-        renderWheel();
-        
+        drawWheel();
         Swal.fire({
-            title: 'Masukkan User ID',
+            title: 'Masukkan ID Pemain',
             input: 'text',
-            inputPlaceholder: 'ID Akun Anda...',
+            inputPlaceholder: 'Contoh: AkunHoki88',
             allowOutsideClick: false,
-            confirmButtonText: 'Masuk Game',
+            confirmButtonText: 'Main Sekarang',
             confirmButtonColor: '#065f46'
         }).then((result) => {
             if (result.value) {
                 username = result.value;
-                document.getElementById("welcomeText").innerHTML = `Selamat Datang, <b>${username}</b>!`;
-                // Mulai notifikasi palsu setelah login
-                setInterval(showFakeNotif, 4000);
+                document.getElementById("welcomeText").innerHTML = `Selamat Berjuang, <b>${username}</b>!`;
+                setInterval(showFakeNotif, 4500);
             }
         });
     });
 
+    // LOGIKA SPIN
     spinBtn.onclick = () => {
-        if (!username) return;
-        if (isSpinning) return;
+        if (!username || isSpinning) return;
+
         isSpinning = true;
-        angVel = rand(0.15, 0.25); // Kecepatan awal
-        rotate();
+        // Putaran acak minimal 5 kali putaran + offset acak
+        const randomDegree = Math.floor(Math.random() * 360) + 1800; 
+        currentRotation += randomDegree;
+        
+        canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+        // Hitung hasil setelah berhenti (5 detik sesuai durasi CSS)
+        setTimeout(() => {
+            isSpinning = false;
+            const actualDeg = currentRotation % 360;
+            // Koreksi arah jarum (puncak roda adalah 270 derajat dalam canvas)
+            const winningIndex = Math.floor((360 - actualDeg) / (360 / tot)) % tot;
+            const prize = sectors[winningIndex].label;
+
+            Swal.fire({
+                title: '🎉 SELAMAT! 🎉',
+                html: `User <b>${username}</b> mendapatkan hadiah:<br><h2 style="color:#065f46">${prize}</h2>`,
+                icon: 'success',
+                confirmButtonText: 'CLAIM HADIAH SEKARANG',
+                confirmButtonColor: '#d97706'
+            }).then(() => {
+                window.location.href = "https://lawaswow.com/?prize=" + prize;
+            });
+        }, 5000);
     };
 
-    // FAKE NOTIF
+    // NOTIFIKASI PALSU LEBIH RANDOM
     function showFakeNotif() {
-        const names = ["Andi", "Budi", "Siti", "Dewi", "Rizky"];
-        const prizes = ["Rp 50rb", "Rp 100rb", "Rp 200rb"];
+        const names = ["Rian", "Salsa", "Fahri", "Anita", "Dimas", "Eko_Gaming", "Putri88", "User_Hoki", "Guntur", "Santi"];
+        const prizes = ["Rp 50.000", "Rp 75.000", "Rp 100.000", "Rp 150.000", "Rp 200.000"];
+        
+        const randomName = names[Math.floor(Math.random() * names.length)] + (Math.floor(Math.random() * 99));
+        const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+        
         const div = document.getElementById("fakeNotify");
-        div.innerHTML = `🔥 ${names[Math.floor(Math.random()*names.length)]} baru saja menang ${prizes[Math.floor(Math.random()*prizes.length)]}!`;
+        div.innerHTML = `🔔 <b>${randomName}</b> baru saja mendapatkan <b>${randomPrize}</b>!`;
         div.style.display = "block";
-        setTimeout(() => div.style.display = "none", 2500);
+        
+        setTimeout(() => { div.style.display = "none"; }, 3000);
     }
 </script>
 
