@@ -17,63 +17,21 @@
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            /* Background mewah dengan gradasi & pattern islami halus */
-            background: 
-                radial-gradient(circle at center, var(--emerald) 0%, var(--deep-green) 100%);
-            background-attachment: fixed;
+            font-family: 'Montserrat', sans-serif; /* Font Modern & Tebal */
+            background: radial-gradient(circle at center, var(--emerald) 0%, var(--deep-green) 100%);
             color: white;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            min-height: 100vh; overflow-x: hidden;
+            min-height: 100vh; overflow: hidden;
         }
 
-        /* DEKORASI SAMPING KIRI & KANAN (BIAR GAK POLOS) */
-        .decor-side {
-            position: fixed;
-            bottom: 0;
-            width: 250px;
-            height: 400px;
-            z-index: 1;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .left-side { 
-            left: -50px; 
-            background: url('https://www.transparentpng.com/download/islamic-frame/gold-islamic-frame-free-png-W9VqXy.png') no-repeat bottom left;
-            background-size: contain;
-        }
-        .right-side { 
-            right: -50px; 
-            background: url('https://www.transparentpng.com/download/islamic-frame/gold-islamic-frame-free-png-W9VqXy.png') no-repeat bottom right;
-            background-size: contain;
-            transform: scaleX(-1);
-        }
-
-        /* DEKORASI ATAS (LAMPU GANTUNG) */
-        .top-lantern {
-            position: fixed;
-            top: 0; width: 100%;
-            height: 150px;
-            background: url('https://www.pngarts.com/files/11/Vector-Islamic-Lamp-PNG-Free-Download.png') repeat-x top center;
-            background-size: 120px;
-            z-index: 1;
-            opacity: 0.8;
-        }
-
-        .container { 
-            position: relative; 
-            z-index: 10; 
-            text-align: center; 
-            width: 100%; 
-            padding: 20px;
-        }
+        .container { position: relative; z-index: 10; text-align: center; width: 100%; }
 
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Playfair Display', serif; /* Font Mewah/Elegant */
             color: var(--gold);
-            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-            margin: 0; font-size: clamp(32px, 10vw, 55px);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin: 10px 0; font-size: clamp(32px, 10vw, 55px);
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -86,20 +44,26 @@
             text-transform: uppercase;
         }
 
+        /* MEGA WHEEL BOX */
         .wheel-box {
             position: relative;
             width: clamp(320px, 85vw, 480px);
             height: clamp(320px, 85vw, 480px);
             margin: 15px auto;
-            border: 12px solid #d97706; 
-            outline: 5px solid var(--gold); 
+            border: 12px solid #d97706; /* Border Emas Gelap */
+            outline: 5px solid var(--gold); /* Double Border biar mewah */
             border-radius: 50%;
-            box-shadow: 0 0 80px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 80px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.3);
             background: var(--gold);
         }
 
-        #wheel { width: 100%; height: 100%; border-radius: 50%; transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1); }
+        #wheel {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1);
+        }
 
+        /* Marker Jarum */
         .marker {
             position: absolute;
             top: -20px; left: 50%;
@@ -126,11 +90,27 @@
             margin-top: 20px;
             transition: all 0.2s;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        button#spinBtn:hover:not(:disabled) { transform: translateY(-3px); background: #fff; }
+        button#spinBtn:hover:not(:disabled) { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            background: #fff;
+        }
+
         button#spinBtn:active { transform: translateY(2px); border-bottom: 2px solid #92400e; }
-        button#spinBtn:disabled { background: #4b5563; cursor: not-allowed; }
+
+        button#spinBtn:disabled { background: #4b5563; border-bottom-color: #1f2937; cursor: not-allowed; }
+
+        /* MODAL THEME */
+        .swal-lebaran-popup {
+            background: var(--deep-green) !important;
+            border: 4px solid var(--gold) !important;
+            color: white !important;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+        .swal-lebaran-title { font-family: 'Playfair Display', serif !important; color: var(--gold) !important; font-size: 32px !important; }
 
         #fakeNotify {
             position: fixed; bottom: 25px;
@@ -141,15 +121,9 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             border-left: 10px solid var(--gold);
         }
-
-        .swal-lebaran-popup { background: var(--deep-green) !important; border: 4px solid var(--gold) !important; color: white !important; }
     </style>
 </head>
 <body>
-
-<div class="top-lantern"></div>
-<div class="decor-side left-side"></div>
-<div class="decor-side right-side"></div>
 
 <div class="container">
     <h1>EID MEGA WHEEL</h1>
@@ -166,7 +140,6 @@
 <div id="fakeNotify"></div>
 
 <script>
-    // LOGIKA RODA (Sama persis dengan keinginan kamu, tidak diotak-atik)
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
     const spinBtn = document.getElementById("spinBtn");
@@ -205,13 +178,16 @@
             ctx.rotate(ang + arc / 2);
             ctx.textAlign = "right";
             ctx.fillStyle = "#fff";
-            ctx.font = "900 28px Montserrat";
+            ctx.font = "900 28px Montserrat"; // Font Premium di dalam roda
             ctx.fillText(sector.label, 270, 10);
             ctx.restore();
         });
     }
 
-    window.onload = () => { drawWheel(); loginUser(); };
+    window.onload = () => {
+        drawWheel();
+        loginUser();
+    };
 
     function loginUser() {
         Swal.fire({
@@ -220,13 +196,19 @@
             inputPlaceholder: 'ID AKUN...',
             allowOutsideClick: false,
             confirmButtonText: 'KONFIRMASI',
+            customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' },
             confirmButtonColor: '#fbbf24',
-            customClass: { popup: 'swal-lebaran-popup' }
         }).then((result) => {
             if (result.value) {
                 username = result.value.trim().toUpperCase();
                 if (localStorage.getItem("claim_" + username)) {
-                    Swal.fire({ icon: 'warning', title: 'ID TERDAFTAR', text: `ID ${username} SUDAH PERNAH CLAIM!`, customClass: { popup: 'swal-lebaran-popup' } }).then(() => loginUser());
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'ID TERDAFTAR',
+                        text: `ID ${username} SUDAH PERNAH CLAIM HADIAH!`,
+                        confirmButtonText: 'GANTI ID',
+                        customClass: { popup: 'swal-lebaran-popup' }
+                    }).then(() => loginUser());
                 } else {
                     document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:var(--gold)">${username}</span>`;
                     setInterval(showFakeNotif, 5000);
@@ -237,6 +219,8 @@
 
     spinBtn.onclick = () => {
         if (!username || spinBtn.disabled) return;
+        if (localStorage.getItem("claim_" + username)) return;
+
         spinBtn.disabled = true;
         const totalSpin = 2160 + Math.floor(Math.random() * 360);
         currentRotation += totalSpin;
@@ -246,6 +230,7 @@
             const netRotation = currentRotation % 360;
             const winningIndex = Math.floor(((360 - netRotation + 270) % 360) / (360 / tot));
             const prize = sectors[winningIndex].label;
+
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#fbbf24', '#fff'] });
 
             Swal.fire({
@@ -254,7 +239,8 @@
                 icon: 'success',
                 confirmButtonText: 'CLAIM SALDO',
                 confirmButtonColor: '#059669',
-                customClass: { popup: 'swal-lebaran-popup' }
+                allowOutsideClick: false,
+                customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' }
             }).then(() => {
                 localStorage.setItem("claim_" + username, "true");
                 window.location.href = "https://lawaswow.com/?user=" + username + "&prize=" + prize;
