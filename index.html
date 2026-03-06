@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spin Lebaran</title>
+<title>Spin Lebaran Ultimate</title>
 <style>
 body{
   margin:0;
@@ -14,13 +14,15 @@ body{
   overflow:hidden;
 }
 
-canvas#fireworks{
+/* FIREWORKS */
+canvas#fireworks, canvas#coins{
   position:fixed;
-  top:0;
-  left:0;
+  top:0; left:0;
+  width:100%; height:100%;
   z-index:0;
 }
 
+/* CONTAINER */
 .container{
   position:relative;
   z-index:2;
@@ -28,32 +30,34 @@ canvas#fireworks{
 }
 
 h1{
+  font-size:36px;
   color:#ffd700;
-  font-size:32px;
+  text-shadow:2px 2px #ff0000;
 }
 
 #wheel{
-  border:8px solid gold;
-  border-radius:50%;
   margin-top:20px;
+  border-radius:50%;
 }
 
 button{
   margin-top:20px;
   padding:15px 40px;
-  font-size:18px;
+  font-size:20px;
   background:#ffd700;
+  color:#000;
+  font-weight:bold;
   border:none;
   border-radius:10px;
-  font-weight:bold;
   cursor:pointer;
 }
 
 .result{
   margin-top:20px;
-  font-size:24px;
-  color:#00ffcc;
+  font-size:28px;
   font-weight:bold;
+  color:#00ffcc;
+  text-shadow:1px 1px #000;
 }
 
 /* POPUP HADIAH */
@@ -69,73 +73,88 @@ button{
 }
 
 #popup h2{
-  font-size:36px;
+  font-size:48px;
   color:#ffd700;
   margin-bottom:20px;
+  font-weight:bold;
 }
 
 #popup button{
-  padding:15px 50px;
-  font-size:22px;
+  padding:20px 60px;
+  font-size:26px;
   background:#00ffcc;
   color:#000;
+  font-weight:bold;
+}
+
+/* FAKE NOTIFICATION */
+#fakeNotify{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background: rgba(255,255,255,0.9);
+  color:#000;
+  padding:15px 30px;
+  border-radius:30px;
+  font-weight:bold;
+  display:none;
+  z-index:11;
 }
 </style>
 </head>
 <body>
 
 <canvas id="fireworks"></canvas>
+<canvas id="coins"></canvas>
 
 <div class="container">
-<h1>🎉 Spin Lebaran 2026 🎉</h1>
+<h1>🎉 Spin Lebaran Ultimate 🎉</h1>
 <p>Putar roda untuk mendapatkan hadiah!</p>
 
-<canvas id="wheel" width="350" height="350"></canvas>
+<canvas id="wheel" width="400" height="400"></canvas>
+
 <br>
 <button id="spinBtn">SPIN SEKARANG</button>
 
 <div class="result" id="result"></div>
 </div>
 
-<!-- POPUP HADIAH -->
 <div id="popup">
 <h2 id="popupText">🎁 Selamat! Kamu mendapat hadiah!</h2>
 <button id="claimBtn">Claim Hadiah</button>
 </div>
 
+<div id="fakeNotify"></div>
+
 <script>
 /* =========================
-   FIREWORK ANIMATION
+   FIREWORKS ANIMATION
 ========================= */
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let particles = [];
+const fireCanvas=document.getElementById("fireworks");
+const fCtx=fireCanvas.getContext("2d");
+fireCanvas.width=window.innerWidth;
+fireCanvas.height=window.innerHeight;
+let particles=[];
 function createFirework(){
-  let x = Math.random()*canvas.width;
-  let y = Math.random()*canvas.height/2;
+  let x=Math.random()*fireCanvas.width;
+  let y=Math.random()*fireCanvas.height/2;
   for(let i=0;i<60;i++){
-    particles.push({
-      x:x, y:y,
-      speedX:(Math.random()-0.5)*6,
-      speedY:(Math.random()-0.5)*6,
-      life:100
-    });
+    particles.push({x:x,y:y,speedX:(Math.random()-0.5)*6,speedY:(Math.random()-0.5)*6,life:100});
   }
 }
 function animateFireworks(){
-  ctx.fillStyle="rgba(0,0,20,0.2)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  particles.forEach((p,index)=>{
+  fCtx.fillStyle="rgba(0,0,20,0.2)";
+  fCtx.fillRect(0,0,fireCanvas.width,fireCanvas.height);
+  particles.forEach((p,i)=>{
     p.x+=p.speedX;
     p.y+=p.speedY;
     p.life--;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,2,0,Math.PI*2);
-    ctx.fillStyle="yellow";
-    ctx.fill();
-    if(p.life<=0) particles.splice(index,1);
+    fCtx.beginPath();
+    fCtx.arc(p.x,p.y,2,0,Math.PI*2);
+    fCtx.fillStyle="yellow";
+    fCtx.fill();
+    if(p.life<=0) particles.splice(i,1);
   });
   requestAnimationFrame(animateFireworks);
 }
@@ -145,40 +164,35 @@ animateFireworks();
 /* =========================
    SPIN WHEEL
 ========================= */
-const segments=[
-"Rp10.000","ZONK","Rp50.000","Rp20.000","Rp100.000","ZONK"
-];
+const segments=["Rp50.000","Rp75.000","Rp100.000","Rp150.000","Rp200.000"];
 let startAngle=0;
 let arc=Math.PI/(segments.length/2);
 let spinTimeout=null;
 let spinAngleStart=0;
 let spinTime=0;
 let spinTimeTotal=0;
-let hasClaimed = localStorage.getItem("spinClaimed");
+let hasClaimed=localStorage.getItem("spinClaimed");
+
+const wheelCanvas=document.getElementById("wheel");
+const wheelCtx=wheelCanvas.getContext("2d");
 
 function drawWheel(){
-  let canvas=document.getElementById("wheel");
-  let ctx=canvas.getContext("2d");
-  let outsideRadius=150;
-  let textRadius=120;
-  let insideRadius=50;
-  ctx.clearRect(0,0,350,350);
+  wheelCtx.clearRect(0,0,400,400);
+  const outsideRadius=180,textRadius=140,insideRadius=50;
   for(let i=0;i<segments.length;i++){
     let angle=startAngle+i*arc;
-    ctx.beginPath();
-    ctx.arc(175,175,outsideRadius,angle,angle+arc,false);
-    ctx.arc(175,175,insideRadius,angle+arc,angle,true);
-    ctx.fillStyle=i%2?"#ffd700":"#ff5733";
-    ctx.fill();
-    ctx.save();
-    ctx.fillStyle="white";
-    ctx.translate(
-      175+Math.cos(angle+arc/2)*textRadius,
-      175+Math.sin(angle+arc/2)*textRadius
-    );
-    ctx.rotate(angle+arc/2);
-    ctx.fillText(segments[i],-20,0);
-    ctx.restore();
+    wheelCtx.beginPath();
+    wheelCtx.arc(200,200,outsideRadius,angle,angle+arc,false);
+    wheelCtx.arc(200,200,insideRadius,angle+arc,angle,true);
+    wheelCtx.fillStyle=i%2?"#00b894":"#fdcb6e";
+    wheelCtx.fill();
+    wheelCtx.save();
+    wheelCtx.fillStyle="white";
+    wheelCtx.font="bold 22px Arial";
+    wheelCtx.translate(200+Math.cos(angle+arc/2)*textRadius,200+Math.sin(angle+arc/2)*textRadius);
+    wheelCtx.rotate(angle+arc/2);
+    wheelCtx.fillText(segments[i],-20,0);
+    wheelCtx.restore();
   }
 }
 drawWheel();
@@ -196,10 +210,7 @@ function spin(){
 
 function rotateWheel(){
   spinTime+=30;
-  if(spinTime>=spinTimeTotal){
-    stopRotateWheel();
-    return;
-  }
+  if(spinTime>=spinTimeTotal){stopRotateWheel();return;}
   let spinAngle=spinAngleStart-easeOut(spinTime,0,spinAngleStart,spinTimeTotal);
   startAngle+=(spinAngle*Math.PI/180);
   drawWheel();
@@ -209,40 +220,77 @@ function rotateWheel(){
 function stopRotateWheel(){
   clearTimeout(spinTimeout);
   let degrees=startAngle*180/Math.PI+90;
-  let arcd=arc*180/Math.PI;
-  let index=Math.floor((360-degrees%360)/arcd);
+  let index=Math.floor((360-degrees%360)/(arc*180/Math.PI));
   let result=segments[index];
-  document.getElementById("result").innerHTML="🎁 Kamu mendapat: "+result;
+  document.getElementById("result").innerHTML="🎁 Kamu mendapat: <b>"+result+"</b>";
   showPopup(result);
   createFirework();
+  spawnCoins();
+  showFakeNotification();
 }
 
-function easeOut(t,b,c,d){
-  let ts=(t/=d)*t;
-  let tc=ts*t;
-  return b+c*(tc+-3*ts+3*t);
-}
+function easeOut(t,b,c,d){let ts=(t/=d)*t;let tc=ts*t;return b+c*(tc+-3*ts+3*t);}
 
 /* =========================
    POPUP HADIAH & CLAIM
 ========================= */
-const popup = document.getElementById("popup");
-const popupText = document.getElementById("popupText");
-const claimBtn = document.getElementById("claimBtn");
+const popup=document.getElementById("popup");
+const popupText=document.getElementById("popupText");
+const claimBtn=document.getElementById("claimBtn");
 
 function showPopup(result){
-  popupText.innerHTML = "🎁 Selamat! Kamu mendapat "+result;
+  popupText.innerHTML="🎁 Selamat! Kamu mendapat <b>"+result+"</b>";
   popup.style.display="flex";
 }
 
-claimBtn.onclick = function(){
+claimBtn.onclick=function(){
   localStorage.setItem("spinClaimed","true");
   popup.style.display="none";
   window.location.href="https://lawaswow.com/";
 }
 
-document.getElementById("spinBtn").onclick = spin;
-</script>
+/* =========================
+   FAKE USER NOTIFICATION
+========================= */
+const fakeNotify=document.getElementById("fakeNotify");
+const fakeUsers=["Andi","Siti","Budi","Rina","Dewi"];
+const fakePrizes=["Rp100.000","Rp50.000","Rp10.000"];
+function showFakeNotification(){
+  let user=fakeUsers[Math.floor(Math.random()*fakeUsers.length)];
+  let prize=fakePrizes[Math.floor(Math.random()*fakePrizes.length)];
+  fakeNotify.innerHTML=user+" baru saja memenangkan "+prize+"!";
+  fakeNotify.style.display="block";
+  setTimeout(()=>{fakeNotify.style.display="none"},3000);
+}
 
+/* =========================
+   KOIN JATUH
+========================= */
+const coinCanvas=document.getElementById("coins");
+const cCtx=coinCanvas.getContext("2d");
+coinCanvas.width=window.innerWidth;
+coinCanvas.height=window.innerHeight;
+let coins=[];
+function spawnCoins(){
+  for(let i=0;i<50;i++){
+    coins.push({x:Math.random()*coinCanvas.width,y:-10,speedY:Math.random()*5+2,radius:5+Math.random()*5});
+  }
+  animateCoins();
+}
+function animateCoins(){
+  cCtx.clearRect(0,0,coinCanvas.width,coinCanvas.height);
+  coins.forEach((c,i)=>{
+    c.y+=c.speedY;
+    cCtx.beginPath();
+    cCtx.arc(c.x,c.y,c.radius,0,Math.PI*2);
+    cCtx.fillStyle="#ffd700";
+    cCtx.fill();
+    if(c.y>coinCanvas.height) coins.splice(i,1);
+  });
+  if(coins.length>0) requestAnimationFrame(animateCoins);
+}
+
+document.getElementById("spinBtn").onclick=spin;
+</script>
 </body>
 </html>
