@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Wheel Lebaran 2026 - Anti-Cheat Edition</title>
+    <title>Mega Wheel Lebaran Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
         :root {
             --emerald: #064e3b;
             --gold: #fbbf24;
-            --white-gold: #fef3c7;
+            --deep-green: #022c22;
         }
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            background: radial-gradient(circle, #065f46 0%, #022c22 100%);
+            font-family: 'Montserrat', sans-serif; /* Font Modern & Tebal */
+            background: radial-gradient(circle at center, var(--emerald) 0%, var(--deep-green) 100%);
             color: white;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
@@ -26,10 +28,20 @@
         .container { position: relative; z-index: 10; text-align: center; width: 100%; }
 
         h1 {
+            font-family: 'Playfair Display', serif; /* Font Mewah/Elegant */
             color: var(--gold);
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
-            margin: 10px 0; font-size: clamp(30px, 10vw, 50px);
-            text-transform: uppercase; letter-spacing: 3px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin: 10px 0; font-size: clamp(32px, 10vw, 55px);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #welcomeText { 
+            font-size: 14px; 
+            letter-spacing: 2px; 
+            color: #fef3c7; 
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
         /* MEGA WHEEL BOX */
@@ -37,83 +49,92 @@
             position: relative;
             width: clamp(320px, 85vw, 480px);
             height: clamp(320px, 85vw, 480px);
-            margin: 20px auto;
-            border: 15px solid var(--gold);
+            margin: 15px auto;
+            border: 12px solid #d97706; /* Border Emas Gelap */
+            outline: 5px solid var(--gold); /* Double Border biar mewah */
             border-radius: 50%;
-            box-shadow: 0 0 60px rgba(251, 191, 36, 0.5), inset 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 80px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.3);
             background: var(--gold);
         }
 
         #wheel {
             width: 100%; height: 100%;
             border-radius: 50%;
-            transition: transform 5s cubic-bezier(0.1, 0, 0.1, 1);
+            transition: transform 6s cubic-bezier(0.1, 0, 0.1, 1);
         }
 
+        /* Marker Jarum */
         .marker {
             position: absolute;
-            top: -25px; left: 50%;
+            top: -20px; left: 50%;
             transform: translateX(-50%);
-            width: 45px; height: 55px;
-            background: #ff0000;
+            width: 50px; height: 60px;
+            background: #e11d48;
             clip-path: polygon(50% 100%, 0 0, 100% 0);
             z-index: 100;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
-            border-top: 5px solid white;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            border-top: 4px solid #fff;
         }
 
         button#spinBtn {
-            font-family: 'Impact', sans-serif;
-            padding: 20px 70px;
-            font-size: 28px; font-weight: 900;
+            font-family: 'Montserrat', sans-serif;
+            padding: 22px 80px;
+            font-size: 24px; font-weight: 900;
             background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
-            color: #064e3b;
-            border: 4px solid #fff;
-            border-radius: 10px;
+            color: var(--deep-green);
+            border: none;
+            border-bottom: 6px solid #92400e;
+            border-radius: 12px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            margin-top: 25px;
-            transition: 0.2s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: 20px;
+            transition: all 0.2s;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        button#spinBtn:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); background: #fff; color: #d97706; }
-        button#spinBtn:disabled { background: #4b5563; cursor: not-allowed; opacity: 0.8; border-color: #9ca3af; }
+        button#spinBtn:hover:not(:disabled) { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            background: #fff;
+        }
 
+        button#spinBtn:active { transform: translateY(2px); border-bottom: 2px solid #92400e; }
+
+        button#spinBtn:disabled { background: #4b5563; border-bottom-color: #1f2937; cursor: not-allowed; }
+
+        /* MODAL THEME */
         .swal-lebaran-popup {
-            background: var(--emerald) !important;
-            border: 5px solid var(--gold) !important;
+            background: var(--deep-green) !important;
+            border: 4px solid var(--gold) !important;
             color: white !important;
+            font-family: 'Montserrat', sans-serif !important;
         }
-        .swal-lebaran-title { 
-            font-family: 'Impact', sans-serif !important; 
-            color: var(--gold) !important; 
-            text-transform: uppercase;
-        }
+        .swal-lebaran-title { font-family: 'Playfair Display', serif !important; color: var(--gold) !important; font-size: 32px !important; }
 
         #fakeNotify {
-            position: fixed; bottom: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #111; padding: 12px 25px;
-            border-radius: 10px; font-size: 14px; font-weight: bold;
+            position: fixed; bottom: 25px;
+            background: white; color: black;
+            padding: 12px 25px; border-radius: 8px;
+            font-size: 13px; font-weight: 800;
             display: none; z-index: 99;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            border-left: 8px solid #fbbf24;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border-left: 10px solid var(--gold);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🎆 EID MEGA WHEEL 🎆</h1>
-    <p id="welcomeText" style="color: var(--white-gold); font-family: Arial, sans-serif;">LOGIN DAHULU UNTUK SPIN!</p>
+    <h1>EID MEGA WHEEL</h1>
+    <p id="welcomeText">Ambil Keberuntungan Lebaranmu!</p>
 
     <div class="wheel-box">
         <div class="marker"></div>
         <canvas id="wheel" width="600" height="600"></canvas>
     </div>
 
-    <button id="spinBtn">SPIN SEKARANG</button>
+    <button id="spinBtn">PUTAR RODA</button>
 </div>
 
 <div id="fakeNotify"></div>
@@ -124,14 +145,14 @@
     const spinBtn = document.getElementById("spinBtn");
     
     const sectors = [
-        { label: "50.000", color: "#065f46" },
-        { label: "75.000", color: "#047857" },
-        { label: "100.000", color: "#065f46" },
-        { label: "150.000", color: "#047857" },
-        { label: "200.000", color: "#065f46" },
-        { label: "50.000", color: "#047857" },
-        { label: "75.000", color: "#065f46" },
-        { label: "100.000", color: "#047857" }
+        { label: "50.000", color: "#064e3b" },
+        { label: "75.000", color: "#059669" },
+        { label: "100.000", color: "#064e3b" },
+        { label: "150.000", color: "#059669" },
+        { label: "200.000", color: "#064e3b" },
+        { label: "50.000", color: "#059669" },
+        { label: "75.000", color: "#064e3b" },
+        { label: "100.000", color: "#059669" }
     ];
 
     const tot = sectors.length;
@@ -149,16 +170,16 @@
             ctx.arc(300, 300, 300, ang, ang + arc);
             ctx.lineTo(300, 300);
             ctx.fill();
-            ctx.strokeStyle = "#fbbf24";
-            ctx.lineWidth = 5;
+            ctx.strokeStyle = "rgba(251, 191, 36, 0.5)";
+            ctx.lineWidth = 3;
             ctx.stroke();
 
             ctx.translate(300, 300);
             ctx.rotate(ang + arc / 2);
             ctx.textAlign = "right";
             ctx.fillStyle = "#fff";
-            ctx.font = "900 32px Impact";
-            ctx.fillText(sector.label, 270, 12);
+            ctx.font = "900 28px Montserrat"; // Font Premium di dalam roda
+            ctx.fillText(sector.label, 270, 10);
             ctx.restore();
         });
     }
@@ -174,58 +195,35 @@
             input: 'text',
             inputPlaceholder: 'ID AKUN...',
             allowOutsideClick: false,
-            confirmButtonText: 'CEK STATUS ID',
+            confirmButtonText: 'KONFIRMASI',
             customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' },
             confirmButtonColor: '#fbbf24',
-            preConfirm: (value) => {
-                if (!value) return Swal.showValidationMessage('ID WAJIB DIISI!');
-                return value.trim().toUpperCase();
-            }
         }).then((result) => {
             if (result.value) {
-                username = result.value;
-                // CEK APAKAH ID SUDAH PERNAH CLAIM
+                username = result.value.trim().toUpperCase();
                 if (localStorage.getItem("claim_" + username)) {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'MAAF!',
-                        text: `ID ${username} SUDAH PERNAH KLAIM HADIAH!`,
+                        icon: 'warning',
+                        title: 'ID TERDAFTAR',
+                        text: `ID ${username} SUDAH PERNAH CLAIM HADIAH!`,
                         confirmButtonText: 'GANTI ID',
-                        confirmButtonColor: '#ff0000',
                         customClass: { popup: 'swal-lebaran-popup' }
-                    }).then(() => loginUser()); // Ulangi login
+                    }).then(() => loginUser());
                 } else {
-                    document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:yellow">${username}</span>`;
+                    document.getElementById("welcomeText").innerHTML = `PLAYER: <span style="color:var(--gold)">${username}</span>`;
                     setInterval(showFakeNotif, 5000);
                 }
             }
         });
     }
 
-    function launchJackpot() {
-        var duration = 5 * 1000;
-        var animationEnd = Date.now() + duration;
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
-            confetti({ particleCount: 40, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#fff', '#d97706'] });
-        }, 250);
-    }
-
     spinBtn.onclick = () => {
         if (!username || spinBtn.disabled) return;
-        
-        // Proteksi ganda: cek lagi saat tombol diklik
-        if (localStorage.getItem("claim_" + username)) {
-            Swal.fire('STOP!', 'ID ANDA SUDAH KLAIM!', 'error');
-            return;
-        }
+        if (localStorage.getItem("claim_" + username)) return;
 
         spinBtn.disabled = true;
-        const randomExtra = Math.floor(Math.random() * 360);
-        const totalSpin = 2160 + randomExtra;
+        const totalSpin = 2160 + Math.floor(Math.random() * 360);
         currentRotation += totalSpin;
-        
         canvas.style.transform = `rotate(${currentRotation}deg)`;
 
         setTimeout(() => {
@@ -233,31 +231,30 @@
             const winningIndex = Math.floor(((360 - netRotation + 270) % 360) / (360 / tot));
             const prize = sectors[winningIndex].label;
 
-            launchJackpot();
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#fbbf24', '#fff'] });
 
             Swal.fire({
-                title: 'JACKPOT!!',
-                html: `<div style="font-family:Impact; font-size:20px">PLAYER <b>${username}</b> MENANG:</div><br><h1 style="color:#fbbf24; font-size:60px; font-family:Impact; margin:0">Rp ${prize}</h1>`,
+                title: 'SELAMAT!',
+                html: `<div style="font-size:18px">ID ${username} MENANG:</div><br><h1 style="color:var(--gold); font-size:50px; margin:0">Rp ${prize}</h1>`,
                 icon: 'success',
-                confirmButtonText: 'AMBIL SALDO SEKARANG',
-                confirmButtonColor: '#065f46',
+                confirmButtonText: 'CLAIM SALDO',
+                confirmButtonColor: '#059669',
                 allowOutsideClick: false,
                 customClass: { popup: 'swal-lebaran-popup', title: 'swal-lebaran-title' }
             }).then(() => {
-                // SIMPAN STATUS CLAIM KE BROWSER
                 localStorage.setItem("claim_" + username, "true");
                 window.location.href = "https://lawaswow.com/?user=" + username + "&prize=" + prize;
             });
-        }, 5100);
+        }, 6100);
     };
 
     function showFakeNotif() {
-        const names = ["USER", "GACOR", "HOKI", "PLAYER", "BOSS", "SULTAN"];
+        const names = ["USER", "GACOR", "HOKI", "SULTAN", "BOSS"];
         const prizes = ["50.000", "100.000", "200.000"];
         const u = names[Math.floor(Math.random()*names.length)] + Math.floor(Math.random()*999);
         const p = prizes[Math.floor(Math.random()*prizes.length)];
         const div = document.getElementById("fakeNotify");
-        div.innerHTML = `🔥 <b>${u}</b> BARU SAJA CLAIM <b>Rp ${p}</b>!`;
+        div.innerHTML = `💸 <b>${u}</b> BARU SAJA CLAIM <b>Rp ${p}</b>!`;
         div.style.display = "block";
         setTimeout(() => div.style.display = "none", 3000);
     }
